@@ -6,8 +6,8 @@ const router = express.Router();
 router.post("/add", async (req, res) => {
     try {
       const newTodo = await pool.query(
-        "INSERT INTO todos (checklist_id, todos_item) VALUES ($1, $2) RETURNING *",
-        [req.body.checklistId, req.body.todo]);
+        "INSERT INTO todos (checklist_id, todos_item, complete) VALUES ($1, $2, $3) RETURNING *",
+        [req.body.checklistId, req.body.todo, false]);
         res.json({todos: newTodo.rows[0]});
     } catch (error) {
       res.status(500).json({
@@ -42,7 +42,7 @@ router.post("/update", async (req, res) => {
 
 router.delete("/delete", async (req, res) => {
     try {
-        const todos = await pool.query('DELETE from todos WHERE todos_item = $1', [req.body.item]);
+        const todos = await pool.query('DELETE from todos WHERE todos_id = $1', [req.body.id]);
         res.status(204).json(todos.rows);
     } catch (error) {
         res.status(500).json({error: error.message});

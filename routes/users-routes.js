@@ -18,12 +18,12 @@ router.get("/",authenticateToken, async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const newUser = await pool.query(
       "INSERT INTO users (user_name,user_email,user_password) VALUES ($1,$2,$3) RETURNING *",
-      [req.body.name, req.body.email, hashedPassword]);
+      [req.body.username, req.body.email, hashedPassword]);
       res.json({users: newUser.rows[0]});
   } catch (error) {
     res.status(500).json({

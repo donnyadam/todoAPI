@@ -5,10 +5,9 @@ const router = express.Router();
 
 router.post("/add", async (req, res) => {
     try {
-      const checklistId = await pool.query('SELECT checklist_id FROM checklist WHERE chechlist_title = $1', [req.body.title]);
       const newTodo = await pool.query(
         "INSERT INTO todos (checklist_id, todos_item) VALUES ($1, $2) RETURNING *",
-        [checklistId, req.body.todo]);
+        [req.body.checklistId, req.body.todo]);
         res.json({todos: newTodo.rows[0]});
     } catch (error) {
       res.status(500).json({

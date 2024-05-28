@@ -11,7 +11,7 @@ CREATE SEQUENCE checklist_id_seq;
 
 CREATE TABLE checklist(
   checklist_id integer PRIMARY KEY DEFAULT nextval('checklist_id_seq'),
-  checklist_title TEXT NOT NULL,
+  checklist_title TEXT,
 );
 
 CREATE SEQUENCE todos_id_seq;
